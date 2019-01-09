@@ -23,7 +23,12 @@
   },
   "homepage": "https://github.com/inancm/nodejs-mail#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "nodemailer": "^5.0.0"
+    "express-validator": "^5.3.1",
+    "nodemailer": "^5.0.0",
+    "nodemon": "^1.18.9",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
   }
 }

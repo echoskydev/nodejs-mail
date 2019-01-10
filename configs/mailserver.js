@@ -1,6 +1,6 @@
-const nodemailer = require("nodemailer");
+const nodeMailer = require("nodemailer");
 
-const mailserver = nodemailer.createTransport({
+const mailserver = nodeMailer.createTransport({
     service: "gmail",
     auth: {
         user: "supportmail@seed-soft.com",

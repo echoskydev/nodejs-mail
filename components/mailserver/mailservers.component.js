@@ -1,36 +1,73 @@
 const mailserver = require('../../configs/mailserver');
+const fs = require("fs");
+const _ = require('lodash');
 
 class MailserversComponent {
-
     sendEmail(data) {
         const mailOptions = {
             from: `Cloud Social WiFi+ <info@seed-soft.com>`,
+            replyTo: `info@seed-soft.com`,
             to: `${data.email}`,
         };
 
-        const template = `template/`;
-
         return new Promise((resolve, reject) => {
-            // resolve(data);
-            switch (data.action) {
-                case 'recoverypassword':
+            let content;
+            console.log(data.action.name);
+            switch (data.action.name) {
+                case 'resetpassword':
                     mailOptions.subject = `Password Reset`;
-                    mailOptions.html = "<b>Mail reset password</b>";
+                    this.readFile(__dirname + '/templates/resetPassword.html').then(data => {
+                        content = data;
+                        content = _.replace(content, /%code%/g, `${data.action.code}`);
+                        mailOptions.html = content;
+                        mailserver.sendMail(mailOptions, (err, res) => {
+                            res ? resolve(res) : reject(err);
+                        });
+                    }).catch(err => reject(err));
                     break;
 
                 case 'welcome':
                     mailOptions.subject = `Welcome to Cloud Social WiFi+`;
-                    mailOptions.html = "<b>Welcome to Cloud Social WiFi+</b>";
+                    this.readFile(__dirname + '/templates/welcome.html').then(data => {
+                        content = data;
+                        content = _.replace(content, /%name%/g, `${data.action.name}`);
+                        mailOptions.html = content;
+                        mailserver.sendMail(mailOptions, (err, res) => {
+                            res ? resolve(res) : reject(err);
+                        });
+                    }).catch(err => reject(err));
+                    break;
+
+                case 'expired':
+                    mailOptions.subject = `Welcome to Cloud Social WiFi+`;
+                    this.readFile(__dirname + '/templates/expired.html').then(data => {
+                        content = data;
+                        content = _.replace(content, /%name%/g, `${data.action.name}`);
+                        content = _.replace(content, /%site%/g, `${data.action.site}`);
+                        content = _.replace(content, /%day%/g, `${data.action.day}`);
+                        mailOptions.html = content;
+                        mailserver.sendMail(mailOptions, (err, res) => {
+                            res ? resolve(res) : reject(err);
+                        });
+                    }).catch(err => reject(err));
                     break;
 
                 default:
                     mailOptions.subject = `Cloud Social WiFi+`;
                     mailOptions.html = ``;
+                    let err = {location: "body", param: "code", msg: 'No content'};
+                    let test = [Object.assign({}, err)];
+                    reject(test);
+                    // return res.status(422).json({errors: test});
                     break;
             }
+        });
+    }
 
-
-            mailserver.sendMail(mailOptions, (err, res) => {
+    readFile(filePath) {
+        return new Promise((resolve, reject) => {
+            fs.readFile(filePath, (err, res) => {
+                // console.log(res);
                 res ? resolve(res) : reject(err);
             });
         });

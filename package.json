@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/inancm/nodejs-mail.git"
+    "url": "git+https://github.com/echoskydev/nodejs-mail.git"
   },
   "keywords": [
     "nodejs",
@@ -19,9 +19,9 @@
   "author": "Seedsoft Solution",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/inancm/nodejs-mail/issues"
+    "url": "https://github.com/echoskydev/nodejs-mail/issues"
   },
-  "homepage": "https://github.com/inancm/nodejs-mail#readme",
+  "homepage": "https://github.com/echoskydev/nodejs-mail#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",

@@ -14,10 +14,23 @@ class MailserversComponent {
             let content;
             console.log(data.action.name);
             switch (data.action.name) {
-                case 'resetpassword':
+                case 'password-reset':
                     mailOptions.subject = `Password Reset`;
-                    this.readFile(__dirname + '/templates/resetPassword.html').then(data => {
-                        content = data;
+                    this.readFile(__dirname + '/templates/passwordReset.html').then(template => {
+                        content = template;
+                        content = _.replace(content, /%code%/g, `${data.action.code}`);
+                        mailOptions.html = content;
+                        console.log(content);
+                        mailserver.sendMail(mailOptions, (err, res) => {
+                            res ? resolve(res) : reject(err);
+                        });
+                    }).catch(err => reject(err));
+                    break;
+
+                case 'password-changed':
+                    mailOptions.subject = `Password Reset`;
+                    this.readFile(__dirname + '/templates/passwordChanged.html').then(template => {
+                        content = template;
                         content = _.replace(content, /%code%/g, `${data.action.code}`);
                         mailOptions.html = content;
                         mailserver.sendMail(mailOptions, (err, res) => {
@@ -28,9 +41,23 @@ class MailserversComponent {
 
                 case 'welcome':
                     mailOptions.subject = `Welcome to Cloud Social WiFi+`;
-                    this.readFile(__dirname + '/templates/welcome.html').then(data => {
-                        content = data;
+                    this.readFile(__dirname + '/templates/welcome.html').then(template => {
+                        content = template;
                         content = _.replace(content, /%name%/g, `${data.action.name}`);
+                        mailOptions.html = content;
+                        mailserver.sendMail(mailOptions, (err, res) => {
+                            res ? resolve(res) : reject(err);
+                        });
+                    }).catch(err => reject(err));
+                    break;
+
+                case 'expiring':
+                    mailOptions.subject = `Welcome to Cloud Social WiFi+`;
+                    this.readFile(__dirname + '/templates/expiring.html').then(template => {
+                        content = template;
+                        content = _.replace(content, /%name%/g, `${data.action.name}`);
+                        content = _.replace(content, /%site%/g, `${data.action.site}`);
+                        content = _.replace(content, /%day%/g, `${data.action.day}`);
                         mailOptions.html = content;
                         mailserver.sendMail(mailOptions, (err, res) => {
                             res ? resolve(res) : reject(err);
@@ -40,8 +67,8 @@ class MailserversComponent {
 
                 case 'expired':
                     mailOptions.subject = `Welcome to Cloud Social WiFi+`;
-                    this.readFile(__dirname + '/templates/expired.html').then(data => {
-                        content = data;
+                    this.readFile(__dirname + '/templates/expired.html').then(template => {
+                        content = template;
                         content = _.replace(content, /%name%/g, `${data.action.name}`);
                         content = _.replace(content, /%site%/g, `${data.action.site}`);
                         content = _.replace(content, /%day%/g, `${data.action.day}`);

@@ -41,6 +41,17 @@ router.post('/v1/mailservers', [
                             return Promise.reject(`${msgRequired} customer's name`)
                         }
                         break;
+                    case 'expiring':
+                        if (_.isUndefined(action.uname)) {
+                            return Promise.reject(`${msgRequired} customer's name`)
+                        }
+                        if (_.isUndefined(action.site)) {
+                            return Promise.reject(`${msgRequired} site`)
+                        }
+                        if (_.isUndefined(action.day)) {
+                            return Promise.reject(`${msgRequired} day`)
+                        }
+                        break;
                     case 'expired':
                         if (_.isUndefined(action.uname)) {
                             return Promise.reject(`${msgRequired} customer's name`)

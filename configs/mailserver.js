@@ -3,8 +3,8 @@ const nodeMailer = require("nodemailer");
 const mailserver = nodeMailer.createTransport({
     service: "gmail",
     auth: {
-        user: "supportmail@seed-soft.com",
-        pass: "seedsoft"
+        user: "xxxxxx@gmail.com",
+        pass: "xxxxxx"
     }
 });
 

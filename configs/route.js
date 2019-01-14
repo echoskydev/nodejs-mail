@@ -31,9 +31,14 @@ router.post('/v1/mailservers', [
                 return Promise.reject(`${msgRequired} action's name`)
             } else {
                 switch (action.name) {
-                    case 'resetpassword':
+                    case 'password-reset':
                         if (_.isUndefined(action.code)) {
                             return Promise.reject(`${msgRequired} code`)
+                        }
+                        break;
+                    case 'password-changed':
+                        if (_.isUndefined(action.username)) {
+                            return Promise.reject(`${msgRequired} username`)
                         }
                         break;
                     case 'welcome':
@@ -51,6 +56,9 @@ router.post('/v1/mailservers', [
                         if (_.isUndefined(action.day)) {
                             return Promise.reject(`${msgRequired} day`)
                         }
+                        if (_.isUndefined(action.date)) {
+                            return Promise.reject(`${msgRequired} date`)
+                        }
                         break;
                     case 'expired':
                         if (_.isUndefined(action.uname)) {
@@ -59,8 +67,8 @@ router.post('/v1/mailservers', [
                         if (_.isUndefined(action.site)) {
                             return Promise.reject(`${msgRequired} site`)
                         }
-                        if (_.isUndefined(action.day)) {
-                            return Promise.reject(`${msgRequired} day`)
+                        if (_.isUndefined(action.date)) {
+                            return Promise.reject(`${msgRequired} date`)
                         }
                         break;
                 }
